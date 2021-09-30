@@ -1,4 +1,4 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render, fireEvent, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Magic from '../Magic';
 
@@ -99,5 +99,31 @@ describe('Magic', () => {
     const h4Elem = screen.getByText('No ', { exact: false });
 
     expect(h4Elem).toHaveTextContent('No Palindrome');
+  });
+
+  it('Should display button list button element on UI', () => {
+    render(<Magic />);
+
+    const listBtnEle = screen.getByRole('button', { name: 'List' });
+
+    expect(listBtnEle).toBeInTheDocument();
+  });
+
+  it('Should display list on button click', () => {
+    render(<Magic />);
+    const listBtnEle = screen.getByRole('button', { name: 'List' });
+
+    userEvent.click(listBtnEle);
+
+    const items = screen.getAllByRole('listitem');
+
+    expect(items.length).toBe(4);
+
+    const textContent = items.map((ele) => ele.textContent);
+
+    console.log(textContent);
+
+    expect(textContent.length).toBe(4);
+    expect(textContent).toEqual(['Mango', 'Banana', 'Apple', 'Berry ']);
   });
 });
