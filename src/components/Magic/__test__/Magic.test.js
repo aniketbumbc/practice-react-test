@@ -1,4 +1,5 @@
 import { screen, render, fireEvent, within } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import Magic from '../Magic';
 
@@ -147,5 +148,30 @@ describe('Magic', () => {
     fireEvent.click(checkBoxEle);
 
     expect(checBoxData).not.toBeInTheDocument();
+  });
+
+  it('Should change color when click on check box and revert back when click again', () => {
+    render(<Magic />);
+
+    const checkBoxEle = screen.getByRole('checkbox', { name: /color change/i });
+
+    expect(checkBoxEle).toBeInTheDocument;
+  });
+
+  it('should show color change text in the document', () => {
+    render(<Magic />);
+
+    const paragraphColorEle = screen.getByTestId('color-change');
+    const checkBoxEle = screen.getByRole('checkbox', { name: /color change/i });
+
+    expect(paragraphColorEle).toBeInTheDocument();
+
+    expect(paragraphColorEle).toHaveStyle('color: blue');
+
+    userEvent.click(checkBoxEle);
+    expect(paragraphColorEle).toHaveStyle('color: red');
+
+    userEvent.click(checkBoxEle);
+    expect(paragraphColorEle).toHaveStyle('color: blue');
   });
 });
