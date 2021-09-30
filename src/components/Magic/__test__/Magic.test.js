@@ -121,9 +121,31 @@ describe('Magic', () => {
 
     const textContent = items.map((ele) => ele.textContent);
 
-    console.log(textContent);
-
     expect(textContent.length).toBe(4);
     expect(textContent).toEqual(['Mango', 'Banana', 'Apple', 'Berry ']);
+  });
+
+  it('Should display checkbox in the document', () => {
+    render(<Magic />);
+
+    const checkBoxEle = screen.getByRole('checkbox', { name: /show data/i });
+
+    expect(checkBoxEle).toBeInTheDocument();
+  });
+
+  it('should show data when click and another click hide data', () => {
+    render(<Magic />);
+
+    const checkBoxEle = screen.getByRole('checkbox', { name: /show data/i });
+
+    fireEvent.click(checkBoxEle);
+
+    const checBoxData = screen.queryByText(/hello/i);
+
+    expect(checBoxData).toBeInTheDocument();
+
+    fireEvent.click(checkBoxEle);
+
+    expect(checBoxData).not.toBeInTheDocument();
   });
 });

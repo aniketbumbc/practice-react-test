@@ -4,6 +4,7 @@ const Magic = () => {
   const [text, setText] = useState('');
   const [palindrom, setPalindrome] = useState('');
   const [fruits, setFruits] = useState([]);
+  const [checkboxData, setCheckboxData] = useState('');
 
   const fruitsInStore = [
     { id: 12, name: 'Mango' },
@@ -30,6 +31,14 @@ const Magic = () => {
     setFruits(fruitsInStore);
   };
 
+  const handleCheckbox = (e) => {
+    if (e.target.checked) {
+      setCheckboxData('Hello');
+    } else {
+      setCheckboxData('');
+    }
+  };
+
   return (
     <>
       <h3> This is interview magic component</h3>
@@ -52,6 +61,10 @@ const Magic = () => {
             </li>
           ))}
       </ul>
+      <br />
+      <input type='checkbox' id='show-data' onChange={handleCheckbox} />
+      <label htmlFor='show-data'>Show Data</label>
+      {!!checkboxData.length && <p>{checkboxData}</p>}
     </>
   );
 };
