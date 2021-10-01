@@ -1,7 +1,9 @@
-import { screen, render, fireEvent, within } from '@testing-library/react';
+import { screen, render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import Magic from '../Magic';
+
+//https://github.com/testing-library/jest-dom
 
 describe('Magic', () => {
   it('Should contain correct heading', () => {
