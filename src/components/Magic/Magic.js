@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchData } from '../../api';
 
 const Magic = () => {
+  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState([]);
+
   const [text, setText] = useState('');
   const [palindrom, setPalindrome] = useState('');
   const [fruits, setFruits] = useState([]);
   const [checkboxData, setCheckboxData] = useState('');
   const [paraColor, setParaColor] = useState('blue');
+
+  useEffect(() => {
+    fetchData('https://randomuser.me/api/').then((res) => {
+      if (res.length) {
+        setUsers(res);
+      }
+    });
+  }, []);
 
   const fruitsInStore = [
     { id: 12, name: 'Mango' },
@@ -83,6 +95,25 @@ const Magic = () => {
       <p style={{ color: paraColor }} data-testid='color-change'>
         Change Color Here
       </p>
+      <br />
+      <h2> Counter Example Here </h2>
+      <h4>{count}</h4>
+      <button onClick={() => setCount(count + 1)}>Increment Counter</button>
+      <button onClick={() => setCount(count - 1)}>Decrement Counter</button>
+      <br />
+      <h2>Random User API </h2>
+      {!!users.length &&
+        users.map((user) => (
+          <React.Fragment key={user.cell}>
+            <h2>{user.email}</h2>
+            <h3>{user.location.city}</h3>
+            <h4>
+              {user.name.first} {user.name.last}
+            </h4>
+
+            <img src={user.picture.large} alt={user.name.first} />
+          </React.Fragment>
+        ))}
     </>
   );
 };
